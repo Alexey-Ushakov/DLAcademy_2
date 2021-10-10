@@ -28,7 +28,9 @@ class Post(models.Model):
                                  verbose_name='категория товара')
 
     def __str__(self):
-        return self.title, self.author
+        return 'Категория: {}  (Пользователь: {}  дата публикации: {}   {}   цена: {})'\
+            .format(self.category.title, self.author.username, self.date_pub,
+                    self.title, self.price,)
 
 
 class Profile(models.Model):
