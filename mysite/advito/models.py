@@ -16,6 +16,10 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user', verbose_name='пользователь')
     title = models.CharField(max_length=150, verbose_name='наименование объявления')
@@ -32,6 +36,12 @@ class Post(models.Model):
             .format(self.category.title, self.author.username, self.date_pub,
                     self.title, self.price,)
 
+    class Meta:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
+        ordering = ['date_pub', 'title']
+
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name='пользователь')
@@ -44,3 +54,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профели'
