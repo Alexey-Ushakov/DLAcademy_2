@@ -15,7 +15,7 @@
             <ul>
                 {% for category in categorys %}
                 <li>
-                    <a href="/advito/category/{{ category.id }}">{{ category.title }}</a>
+                    <a href="{% url 'advito:choise_category' category.id %}">{{ category.title }}</a>
                 </li>
                 {% endfor %}
             </ul>
