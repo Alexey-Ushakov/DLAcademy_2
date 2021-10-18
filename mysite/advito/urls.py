@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from .views import (
     AnnouncementView, PostDetailView, PostCreateView, EditView, PostDelete, CategoryView, Category_choiseView, IndexView
 )
+from .urls_auth import urlpatterns as auth_patterns
 
 app_name ='advito'
 
@@ -19,3 +20,4 @@ urlpatterns = [
     path('category/<int:category_id>/', Category_choiseView.as_view(), name="choise_category")
 ]
 
+urlpatterns += auth_patterns
