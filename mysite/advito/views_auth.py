@@ -1,8 +1,15 @@
+from django import forms
 from django.contrib.auth.views import LoginView as DefaultLoginView
-from django.contrib.auth import authenticate, login
-from django.shortcuts import redirect, reverse, render
+from django.contrib.auth import authenticate, login, logout
+from django.http import Http404
+from django.shortcuts import redirect, reverse, render, get_object_or_404
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, DetailView
+from .forms_auth import UpdateProfileForm
+
 
 from .forms_auth import LoginForm
+from advito.models import Profile
+
 
 class LoginView(DefaultLoginView):
     template_name = "my_auth/login.html"
@@ -21,3 +28,33 @@ class LoginView(DefaultLoginView):
                 return render(request, self.template_name, {'form': form})
         else:
             return render(request, self.template_name, {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('advito:login'))
+
+class ProfileView(DetailView):
+    model = Profile
+    template_name = 'my_auth/profile.html'
+
+    def get_object(self):
+        return get_object_or_404(self.model, user_id=self.kwargs['user_id'])
+
+class EditProfileView(UpdateView):
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = "my_auth/edit_profile.html"
+    slug_field = "user_id"
+    slug_url_kwarg = "user_id"
+
+    def get_success_url(self):
+        user_id = self.kwargs.get("user_id")
+        return reverse("advito:profile", args=(self.request.user.id, ))
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.user != request.user:
+            raise Http404('go away')
+        return super(EditProfileView, self).dispatch(request, *args, **kwargs)
+

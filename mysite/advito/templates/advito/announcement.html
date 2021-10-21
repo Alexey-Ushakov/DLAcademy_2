@@ -23,7 +23,7 @@
             <ul>
                 {% for post in posts %}
                 <li>
-                    <p>{{ post.author.username }}</p>
+                    <a href="{% url 'advito:profile' post.author.id %}">{{ post.author.username }}</a>
                     <p>{{ post.category.title }}</p>
                     <p>{{ post.price }}</p>
                     <a href="{% url 'advito:post_detail' post.id %}">{{ post.title }}</a>

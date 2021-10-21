@@ -5,21 +5,25 @@ from django.contrib.auth.forms import (
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.forms.widgets import PasswordInput, TextInput
+from advito.models import Profile
 
 
 
 class LoginForm(AuthenticationForm):
     username = UsernameField(widget=forms.TextInput(attrs={
-        'authfocus': True,
-        'placeholder': 'username',
+        'autofocus': True,
+        'placeholder': 'Логин',
         'class': 'form control'
     }))
 
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={
-        'placeholder': 'пароль',
-        'class': 'form control'
-    }),
-    strip=False,
+    password = forms.CharField(
+        label='Пароль',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form control',
+            'placeholder': 'Пароль'
+        }),
+        strip=False,
     )
 
     error_messages = {
@@ -60,3 +64,13 @@ class SignUpForm(UserCreationForm):
         if email and User.objects.filter(email=email).exists():
             raise forms.ValidationError('email должен быть уникальным')
         return email
+
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['about', 'avatar']
+        labels = {
+            "about": "Обо мне",
+            "avatar": "Фото"
+        }

@@ -7,7 +7,7 @@
 <body>
     <h3>Войти</h3>
     <hr>
-    {% if user.is_authenticated %}
+    {% if not user.is_authenticated %}
     <form method="post">
         {% csrf_token %}
         {% for field in form %}
@@ -21,6 +21,8 @@
     </form>
     {% else %}
         <h3> hello, {{user.username }}</h3>
+        <a href="{% url 'advito:logout' %}">Выйти</a>
+        <a href="{% url 'advito:index' %}">На главную</a>
     {% endif %}
 
 </body>
