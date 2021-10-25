@@ -58,6 +58,19 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ['username', 'email']
 
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Логин',
+                "help_text": "#"
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Email',
+            }),
+
+        }
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
         username = self.cleaned_data.get('username')

@@ -3,8 +3,8 @@ from django.contrib.auth.views import LoginView as DefaultLoginView
 from django.contrib.auth import authenticate, login, logout
 from django.http import Http404
 from django.shortcuts import redirect, reverse, render, get_object_or_404
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView, DetailView
-from .forms_auth import UpdateProfileForm
+from django.views.generic import View, UpdateView, DetailView
+from .forms_auth import UpdateProfileForm, SignUpForm
 
 
 from .forms_auth import LoginForm
@@ -57,4 +57,25 @@ class EditProfileView(UpdateView):
         if obj.user != request.user:
             raise Http404('go away')
         return super(EditProfileView, self).dispatch(request, *args, **kwargs)
+
+class SignUpView(View):
+    template_name = "my_auth/siginup.html"
+    signup_form = SignUpForm
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {'form': self.signup_form})
+
+    def post(self, request, *args, **kwargs):
+        user_form = self.signup_form(data=request.POST)
+
+        registered = False
+        context = {}
+        if user_form.is_valid():
+            user_form.save()
+            context.update({'registered': True})
+            registered = True
+        else:
+            context.update({'form': user_form})
+
+        return render(request, self.template_name, context)
 
