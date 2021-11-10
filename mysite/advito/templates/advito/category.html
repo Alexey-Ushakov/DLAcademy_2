@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{page_title}}</title>
-</head>
-<body>
-    <header>
-
-    </header>
-    <main>
-        <section>
-            <ul>
+{% extends 'base/base_advito.html' %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+{% block content %}
                 {% for category in categorys %}
-                <li>
-                    <a href="{% url 'advito:choise_category' category.id %}">{{ category.title }}</a>
-                </li>
+                <ul class="list-group">
+                      <li class="list-group-item">
+                          <a href="{% url 'advito:choise_category' category.id %}">{{ category.title }}</a>
+                          <h3>{{ category.descriptions }}</h3>
+                      </li>
+                </ul>
                 {% endfor %}
-            </ul>
-        </section>
-    </main>
-</body>
-</html>
+{% endblock content %}

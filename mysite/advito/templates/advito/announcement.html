@@ -1,38 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{page_title}}</title>
-</head>
-<body>
-    <header>
+{% extends 'base/base_advito.html' %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+{% block content %}
 
-    </header>
-    <main>
-        <section>
-             <ul>
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
                 {% for cat in category %}
-                <li>
-                    <p>{{ cat.title }}</p>
-                </li>
+                <a href="{% url 'advito:choise_category' cat.id %}" class="btn btn-outline-primary">{{ cat.title }}</a>
                 {% endfor %}
-             </ul>
+            </div>
+</div>
             {% if posts %}
-            <ul>
                 {% for post in posts %}
-                <li>
-                    <a href="{% url 'advito:profile' post.author.id %}">{{ post.author.username }}</a>
-                    <p>{{ post.category.title }}</p>
-                    <p>{{ post.price }}</p>
-                    <a href="{% url 'advito:post_detail' post.id %}">{{ post.title }}</a>
-                    <img src ='{{post.image.url}}' alt="{{ post.title }}">
-                </li>
+                    <div class="container">
+                        <div class="card" style="width: 40rem;">
+                            <img src='{{post.image.url}}' alt="{{ post.title }}">
+                            <div class="card-body">
+                                <p>Товар :
+                                    <a href="{% url 'advito:post_detail' post.id %}"> {{ post.title }}</a>
+                                </p>
+                                <p>Цена : {{ post.price }}</p>
+                                <p>Категория : {{ post.category.title }}</p>
+                                <p>Продавец :
+                                <a href="{% url 'advito:profile' post.author.id %}">{{ post.author.username }}</a>
+                                </p>
+                                <a href="{% url 'advito:post_detail' post.id %}" class="btn btn-primary">Присмотреться</a>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
             {% endif %}
-        </section>
-    </main>
-</body>
-</html>
+{% endblock content %}

@@ -1,29 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login User</title>
-</head>
-<body>
+{% extends 'base/base_advito.html' %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+{% block content %}
     <h3>Войти</h3>
-    <hr>
+    <div class="btn-group">
     {% if not user.is_authenticated %}
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            <div>
-                <p>
-                    {{ field }}
-                </p>
-            </div>
-        {% endfor %}
-        <button type="submit">Авторизироваться</button>
-    </form>
-    {% else %}
-        <h3> hello, {{user.username }}</h3>
-        <a href="{% url 'advito:logout' %}">Выйти</a>
-        <a href="{% url 'advito:index' %}">На главную</a>
-    {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div>
+                    <p>
+                        {{ field }}
+                    </p>
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Авторизироваться</button>
+            <a class="btn btn-primary" href="{% url 'advito:signup' %}"> Зарегестрируйтесь</a>
 
-</body>
-</html>
+            <a class="btn btn-primary" href="{% url 'advito:password_reset' %}">Забыли пароль?</a>
+
+        </form>
+    </div>
+    {% else %}
+    <div class="btn-group-vertical">
+        <h3> hello, {{user.username }}</h3>
+        <p>
+            <a class="btn btn-primary" href="{% url 'advito:logout' %}">Выйти</a>
+        </p>
+        <p>
+            <a class="btn btn-primary" href="{% url 'advito:index' %}">На главную</a>
+        </p>
+        <p>
+            <a class="btn btn-primary" href="{% url 'advito:profile' user_id=user.id %}">Личный кабинет</a>
+        </p>
+
+    </div>
+    {% endif %}
+{% endblock content %}

@@ -72,7 +72,7 @@ class PostDetailView(DetailView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     form_class = PostForm
     template_name = 'advito/post_create.html'
-    login_url = '/admin/login'
+    login_url = '/advito/login'
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
@@ -168,6 +168,8 @@ class Category_choiseView(DetailView):
         context = self.get_context_data(object=self.object)
         context['posts'] = Post.objects.filter(category_id=category_id)
         context['category'] = Category.objects.get(id=category_id)
+        context['categoris'] = Category.objects.all()
+
 
         return self.render_to_response(context)
 
