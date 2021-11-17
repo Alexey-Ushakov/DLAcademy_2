@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from .validators import validate_date_edit
 
 # Create your models here.
 def user_avatar_path(instance, filename):
@@ -25,8 +26,8 @@ class Post(models.Model):
     title = models.CharField(max_length=150, verbose_name='наименование объявления')
     description = models.TextField(max_length=1000, blank=True, verbose_name='содержание объявления')
     image = models.ImageField(upload_to=user_directory_path, verbose_name='фотография товара')
-    date_pub = models.DateTimeField(default=timezone.now, verbose_name='дата создания')
-    date_edit = models.DateTimeField(default=timezone.now, verbose_name='дата изменения')
+    date_pub = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
+    date_edit = models.DateTimeField(auto_now=True, verbose_name='дата изменения', validators=[validate_date_edit, ])
     price = models.IntegerField(verbose_name='цена товара')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, related_name='category',
                                  verbose_name='категория товара')

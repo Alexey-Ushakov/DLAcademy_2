@@ -6,7 +6,7 @@ from advito.models import Post, Category
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'description', 'price', 'date_pub', 'image', 'category']
+        fields = ['title', 'description', 'price', 'image', 'category']
 
         labels = {
             'title': 'Название',
@@ -15,5 +15,5 @@ class PostForm(forms.ModelForm):
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Название'}),
-            'date_pub': forms.SelectDateWidget(),
+
         }
