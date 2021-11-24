@@ -1,0 +1,15 @@
+{% extends 'base/base_advito.html' %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for f in form %}
+        <p>
+        {{ f.label }} {{ f }}
+        </p>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
+{% endblock content %}

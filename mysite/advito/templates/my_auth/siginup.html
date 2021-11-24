@@ -1,0 +1,22 @@
+{% extends 'base/base_advito.html' %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+{% block content %}
+    <h3>Регистрация</h3>
+    <hr>
+    {% if not registered %}
+    <form method="post" class="form-control">
+        {% csrf_token %}
+        {% for f in form %}
+        <p>
+        {{ f.label }} {{ f }}
+        </p>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
+    </form>
+    {% else %}
+    <h3> Вы успешно зарегестрированны</h3>
+    <a href="{% url 'advito:login' %}">Авторизируйтесь</a>
+    {% endif %}
+{% endblock content %}

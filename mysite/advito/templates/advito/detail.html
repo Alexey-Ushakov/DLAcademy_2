@@ -1,0 +1,30 @@
+{% extends 'base/base_advito.html' %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+{% block content %}
+             <div class="container">
+                        <div class="card" style="width: 75rem;">
+                            <img src='{{post.image.url}}' alt="{{ post.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">Товар: {{ post.title }}</h5>
+                                <p>Цена : {{ post.price }} руб.</p>
+                                <p>Категория :
+                                    <a href="{% url 'advito:choise_category' post.category.id %}"> {{ post.category.title }}</a>
+                                </p>
+                                <p>Продавец :
+                                    <a href="{% url 'advito:profile' post.author.id %}">  {{ post.author.username }}</a>
+                                </p>
+                                <p class="card-text">Немного о товаре : {{ post.description }}</p>
+
+                                <p>Время создания поста: {{ post.date_pub }}</p>
+
+                            </div>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <a href="{% url 'advito:post_delete' post.id %}" class="btn btn-outline-primary">Удалить Пост</a>
+                            <a href="{% url 'advito:post_edit' post.id %}" class="btn btn-outline-primary">Редактировать пост</a>
+                        </div>
+                    </div>
+
+{% endblock content %}

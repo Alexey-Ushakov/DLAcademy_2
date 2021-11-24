@@ -1,0 +1,14 @@
+{% extends 'base/base_advito.html' %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+{% block content %}
+                {% for category in categorys %}
+                <ul class="list-group">
+                      <li class="list-group-item">
+                          <a href="{% url 'advito:choise_category' category.id %}">{{ category.title }}</a>
+                          <h3>{{ category.descriptions }}</h3>
+                      </li>
+                </ul>
+                {% endfor %}
+{% endblock content %}

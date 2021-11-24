@@ -1,0 +1,16 @@
+{% extends 'base/base_advito.html' %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+{% block content %}
+    <h1> {{ profile.user.username }}</h1>
+    <h2> About: {{ profile.about }}</h2>
+    <img class="avatar" src="{{ profile.avatar.url }}" alt="image">
+    {% if user.id == profile.user.id %}
+        <p>
+            <a class="btn btn-primary" href="{% url 'advito:edit_profile' user_id=profile.user.id %}">Обновить профиль</a>
+        </p>
+    {% else %}
+    <h2>Круто что зашли сюда</h2>
+    {% endif %}
+{% endblock content %}
