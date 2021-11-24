@@ -40,13 +40,19 @@
                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'advito:post_create' %}">Создать пост</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'advito:login' %}">Войти или зарегестрироваться</a>
-                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'advito:logout' %}">Выйти</a>
+                         </li>
+                    {% else %}
 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'advito:login' %}">Войти или зарегестрироваться</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" action="{% url 'advito:index' %}">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>

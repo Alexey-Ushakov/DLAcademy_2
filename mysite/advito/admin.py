@@ -43,6 +43,9 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['title']
     list_filter = ['title']
 
+
+
+
 # class ProfileInline(admin.StackedInline):
 #     model = Profile
 #     fieldsets = [

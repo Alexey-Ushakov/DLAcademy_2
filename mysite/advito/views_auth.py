@@ -15,6 +15,7 @@ class LoginView(DefaultLoginView):
     template_name = "my_auth/login.html"
     form = LoginForm
 
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.is_valid():
@@ -23,7 +24,7 @@ class LoginView(DefaultLoginView):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
-                return redirect(reverse('advito:announcement'), request)
+                return redirect(request.META.get('HTTP_REFERER'), request)
             else:
                 return render(request, self.template_name, {'form': form})
         else:

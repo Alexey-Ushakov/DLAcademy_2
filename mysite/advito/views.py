@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from advito.models import Post, Category
 from advito.forms import PostForm
 
+from django.db.models import Q
+
 # Create your views here.
 
 class IndexView(ListView):
@@ -17,8 +19,16 @@ class IndexView(ListView):
     context_object_name = 'posts'
     extra_context = {'page_title': '7 last posts'}
 
+
     def get_queryset(self):
-        return self.model.objects.all()[:7]
+        search_query = self.request.GET.get('search', '')
+        if search_query:
+            posts = self.model.objects.filter(
+                Q(title__icontains=search_query) | Q(description__icontains=search_query)
+            )
+        else:
+            posts = self.model.objects.all()[:7]
+        return posts
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
