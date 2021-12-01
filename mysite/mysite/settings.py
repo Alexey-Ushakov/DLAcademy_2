@@ -118,6 +118,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+LOGIN_URL = '/advito/login'
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -130,12 +132,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# EMAIL_BACKEND = 'django.advito.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = '465'
-# EMAIL_HOST_USER = "LOGIN" # Логин от почты email@email.com
-# EMAIL_HOST_PASSWORD = 'password'
+EMAIL_HOST_USER = "testalltestalexey42@gmail.com"
+EMAIL_HOST_PASSWORD = 'тут был пароль'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+# EMAIL_USE_TSL = True
 # EMAIL_USE_SSL = True # Какую шифровку использует сервис(гмаил или яндекс)
 # DEFAULT_FROM_EMAIL = 'email1@email.com' # если к акаунту привязано есколько почтовых ящиков

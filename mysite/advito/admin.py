@@ -4,8 +4,10 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.db.models import fields
-from .models import Profile, Post, Category
+from .models import Profile, Post, Category, Comment
 
+
+admin.site.register(Comment)
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):

@@ -1,6 +1,6 @@
 from django import forms
 
-from advito.models import Post, Category
+from advito.models import Post, Category, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -16,4 +16,16 @@ class PostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Название'}),
 
+        }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+        widgets = {
+            'text': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Текст комментария'}),
         }
