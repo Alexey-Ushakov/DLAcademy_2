@@ -25,6 +25,18 @@
                             <a href="{% url 'advito:post_delete' post.id %}" class="btn btn-outline-primary">Удалить Пост</a>
                             <a href="{% url 'advito:post_edit' post.id %}" class="btn btn-outline-primary">Редактировать пост</a>
                         </div>
+                        {% if comments %}
+                        <h3> Comments: </h3>
+                        {% for comment in comments %}
+                        <p>{{ comment.author }}</p>
+                        <p>{{ comment.text }}</p>
+                        {% endfor %}
+                        {% endif %}
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ comment_form }}
+                            <button type="submit">Добавить коммент</button>
+                        </form>
                     </div>
 
 {% endblock content %}

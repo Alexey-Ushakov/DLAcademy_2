@@ -6,8 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from advito.models import Post, Category
-from advito.forms import PostForm
+from advito.models import Post, Category, Comment
+from advito.forms import PostForm, CommentForm
 
 from django.db.models import Q
 
@@ -59,15 +59,37 @@ class AnnouncementView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+    comment_form = CommentForm
     pk_url_kwarg = "post_id"
     template_name = 'advito/detail.html'
+
 
     def get(self, request, post_id, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         context['categoriy'] = Category.objects.get(category=self.object)
+        context['comments'] = Comment.objects.filter(post=self.object).order_by('-date_pub')
+        context['comment_form'] = self.comment_form
 
         return self.render_to_response(context)
+
+    @method_decorator(login_required())
+    def post(self, request, post_id, *args, **kwargs):
+        post = get_object_or_404(Post, id=post_id)
+        form = self.comment_form(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = self.request.user
+            comment.post = post
+            comment.save()
+        return render(request, self.template_name, {
+            'post': post,
+            # 'comments': Comment.objects.filter(post=self.object).order_by('-date_pub'),
+            'comments': post.comment_set.order_by('-date_pub'),
+            'comment_form': self.comment_form
+        })
+
+
 
 # def post_detail(request, post_id):
 #     # try:

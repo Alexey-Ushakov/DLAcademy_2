@@ -33,9 +33,15 @@ class Post(models.Model):
                                  verbose_name='категория товара')
 
     def __str__(self):
-        return 'Категория: {}  (Пользователь: {}  дата публикации: {}   {}   цена: {})'\
-            .format(self.category.title, self.author.username, self.date_pub,
-                    self.title, self.price,)
+        return self.title
+
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+        else:
+            return '#'
+
+
 
     class Meta:
         verbose_name = 'Пост'
@@ -47,7 +53,7 @@ class Post(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name='пользователь')
     about = models.TextField(max_length=1000, verbose_name='о себе')
-    avatar = models.ImageField(upload_to=user_avatar_path, verbose_name='фото пользователя')
+    avatar = models.ImageField(upload_to=user_avatar_path, blank=True, verbose_name='фото пользователя')
     birth_date = models.DateField(null=True, blank=True, verbose_name='день рождения')
     created = models.DateTimeField(default=timezone.now)
     post = models.ForeignKey(Post, on_delete=models.PROTECT, null=True, blank=True, related_name='post',
@@ -56,7 +62,22 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+    def avatar_url(self):
+        if self.avatar and hasattr(self.avatar, 'url'):
+            return self.avatar.url
+        else:
+            return '#'
 
     class Meta:
         verbose_name = 'Профиль'
         verbose_name_plural = 'Профели'
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(max_length=150)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    date_pub = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.text
